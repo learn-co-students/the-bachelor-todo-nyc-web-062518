@@ -40,27 +40,9 @@ data = JSON.parse(File.read('spec/fixtures/contestants.json'))
 # }
 def get_first_name_of_season_winner(data, season)
 
-  winner = data[season].select { |x| x["status"] == "Winner" }
-  # .find
-  puts winner
-  puts "winner.length is #{winner.length}"
-  puts "winner[0].length = #{winner[0].length}"
-  puts "winner[0][:name] = #{winner[0][:name]}"
-  puts "data[season] is an array? #{data[season].is_a?(Array)}"
-  puts "winner is a array? #{winner.is_a?(Array)}"
-  puts nameHash = winner[0].select { |x| x == "name" }
-  winner_name = nameHash[0]
-  puts winner_name
-  puts "winner_name is a object? #{winner_name.is_a?(Object)}"
+  puts winner = data[season].find { |x| x["status"] == "Winner" }
+  winner.fetch("name").split(" ")[0]
 
-  # select { |x| x[:status] == "Winner" }
-  # puts data.find { |x| x == season}
-  # puts data.is_a?(Array)
-  # winner = data.find[season.to_sym].find { |x| x[:status] == "Winner" }
-  # first_name = winner("name").split(" ")[0]
-  # first_name = winner_name.split(" ")[0]
-  # puts first_name
-  # first_name
 end
 
 def get_contestant_name(data, occupation)
