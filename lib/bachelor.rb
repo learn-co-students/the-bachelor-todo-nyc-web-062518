@@ -5,51 +5,43 @@ require 'json'
 data = JSON.parse(File.read('spec/fixtures/contestants.json'))
 
 def get_first_name_of_season_winner(data, season)
-  data[season].find{ |x| x["status"] == "Winner" }.fetch("name").split(" ")[0]
+  data[season].find{ |x| x["status"] == "Winner" }["name"].split(" ")[0]
 end
 
 def get_contestant_name(data, occupation)
-  found = nil
-  while !found
-    data.each do |season, list|
-      current = list.find {|contestant| contestant.fetch("occupation") == occupation }
-      if current
-        found = current.fetch("name")
-      end
+  data.each do |season, contestants|
+    current = contestants.find {|contestant| contestant["occupation"] == occupation }
+    if current
+      return current["name"]
     end
   end
-found
 end
 
 def count_contestants_by_hometown(data, hometown)
-  counter = 0
+  count = 0
   data.each do |season, list|
     list.each do |contestant|
-      if contestant.fetch("hometown") == hometown
-        counter += 1
+      if contestant["hometown"] == hometown
+        count += 1
       end
     end
   end
-  counter
+  count
 end
 
 def get_occupation(data, hometown)
-  found = nil
-  while !found
-    data.each do |season, list|
-      current = list.find {|contestant| contestant.fetch("hometown") == hometown }
-      if current
-        found = current.fetch("occupation")
-      end
+  data.each do |season, contestants|
+    current = contestants.find {|contestant| contestant["hometown"] == hometown }
+    if current
+      return current["occupation"]
     end
   end
-found
 end
 
 def get_average_age_for_season(data, season)
   total = 0
   data[season].each do |contestant|
-    total += contestant.fetch("age").to_f
+    total += contestant["age"].to_f
   end
   (total/data[season].length).round
 end
