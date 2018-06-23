@@ -88,7 +88,7 @@ def get_average_age_for_season(data, season)
     total += contestant.fetch("age").to_i
     counter += 1
   end
-  (total/counter).ceil
+  (total/counter).to_i
 end
 
 # get_first_name_of_season_winner(data, "season 18")
